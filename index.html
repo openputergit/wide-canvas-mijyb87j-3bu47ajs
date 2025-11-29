@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubham | Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <!-- Custom Config for specific colors from the image -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brickBlue: '#568095', // Muted blue from image
+                        brickDark: '#1a2634',
+                        neonGreen: '#00ff41',
+                        retroPink: '#ff0055',
+                        termBg: '#0d1117'
+                    },
+                    fontFamily: {
+                        retro: ['"Press Start 2P"', 'cursive'],
+                        mono: ['"Share Tech Mono"', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #232d3d 1px, transparent 1px), linear-gradient(to bottom, #232d3d 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Retro Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #568095;
+            border: 2px solid #0d1117;
+        }
+
+        /* CRT Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Glitch Animation */
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        .glitch:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #568095;
+        }
+
+        /* Typing Cursor */
+        .typing-cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .pixel-corners {
+            clip-path: polygon(
+                0px 10px, 4px 10px, 4px 4px, 10px 4px, 10px 0px,
+                calc(100% - 10px) 0px, calc(100% - 10px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 10px, 100% 10px,
+                100% calc(100% - 10px), calc(100% - 4px) calc(100% - 10px), calc(100% - 4px) calc(100% - 4px), calc(100% - 10px) calc(100% - 4px), calc(100% - 10px) 100%,
+                10px 100%, 10px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 10px), 0px calc(100% - 10px)
+            );
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-termBg text-gray-300 font-mono overflow-x-hidden selection:bg-brickBlue selection:text-white">
+
+    <!-- Scanline Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 bg-termBg/90 backdrop-blur border-b-2 border-brickBlue/30 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-brickBlue font-retro text-sm md:text-lg hover:text-white transition-colors cursor-pointer glitch">
+                <i class="bi bi-joystick mr-2"></i>DEV_PLAYER_1
+            </div>
+            <div class="hidden md:flex gap-8 text-sm tracking-widest">
+                <a href="#home" class="hover:text-brickBlue hover:underline decoration-2 underline-offset-4 transition-all">[ HOME ]</a>
+                <a href="#about" class="hover:text-brickBlue hover:underline decoration-2 underline-offset-4 transition-all">[ STATS ]</a>
+                <a href="#projects" class="hover:text-brickBlue hover:underline decoration-2 underline-offset-4 transition-all">[ QUESTS ]</a>
+                <a href="#contact" class="hover:text-brickBlue hover:underline decoration-2 underline-offset-4 transition-all">[ CONNECT ]</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-2xl text-brickBlue" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-termBg border-b-2 border-brickBlue/30 p-4 flex flex-col gap-4 md:hidden text-center z-50">
+            <a href="#home" class="py-2 hover:bg-brickBlue/10">[ HOME ]</a>
+            <a href="#about" class="py-2 hover:bg-brickBlue/10">[ STATS ]</a>
+            <a href="#projects" class="py-2 hover:bg-brickBlue/10">[ QUESTS ]</a>
+            <a href="#contact" class="py-2 hover:bg-brickBlue/10">[ CONNECT ]</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative pt-24 min-h-screen bg-grid-pattern bg-[length:40px_40px]">
+        
+        <!-- Hero Section -->
+        <section id="home" class="min-h-[90vh] flex flex-col items-center justify-center p-6 relative">
+            <div class="max-w-4xl w-full">
+                <div class="border-2 border-brickBlue p-1 bg-brickBlue/10 inline-block mb-8 rounded shadow-[0_0_15px_rgba(86,128,149,0.5)]">
+                    <span class="bg-brickBlue text-termBg px-2 py-1 font-retro text-xs">STATUS: ONLINE</span>
+                </div>
+                
+                <h1 class="text-4xl md:text-7xl font-bold mb-6 text-white leading-tight">
+                    <span class="text-brickBlue font-retro mr-4">></span><span id="typewriter" class="typing-cursor"></span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed">
+                    Welcome to Shubham's digital sanctuary. I craft robust web applications with the strategy of a grandmaster and the precision of a pixel artist.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects" class="group relative px-8 py-4 bg-brickBlue text-white font-retro text-xs md:text-sm shadow-[4px_4px_0px_#fff] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200 border-2 border-transparent">
+                        <i class="bi bi-play-fill mr-2"></i>START GAME
+                    </a>
+                    <a href="https://github.com/shubham362-source" target="_blank" class="group relative px-8 py-4 bg-transparent border-2 border-white text-white font-retro text-xs md:text-sm hover:bg-white hover:text-termBg transition-all duration-200">
+                        <i class="bi bi-github mr-2"></i>GITHUB
+                    </a>
+                </div>
+
+                <!-- Floating Decor -->
+                <div class="absolute right-0 top-1/4 -z-10 opacity-20 hidden lg:block float-anim">
+                    <i class="bi bi-braces text-9xl text-brickBlue"></i>
+                </div>
+                <div class="absolute left-10 bottom-20 -z-10 opacity-20 hidden lg:block float-anim" style="animation-delay: 1s;">
+                    <i class="bi bi-code-slash text-8xl text-brickBlue"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats / About Section -->
+        <section id="about" class="py-20 px-6 bg-termBg border-y border-brickBlue/20">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-retro text-center mb-16 text-white"><span class="text-brickBlue">#</span> PLAYERSTATS</h2>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <!-- Avatar Area -->
+                    <div class="relative group">
+                        <div class="absolute inset-0 bg-brickBlue transform translate-x-4 translate-y-4"></div>
+                        <div class="relative bg-gray-800 border-4 border-white p-2">
+                             <!-- Using a generic coder placeholder image -->
+                            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Coder Setup" class="w-full h-80 object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            
+                            <div class="absolute bottom-4 left-4 bg-black/80 p-2 text-xs font-retro text-green-400 border border-green-400 w-3/4">
+                                > CHARACTER: SHUBHAM<br>
+                                > LEVEL: 99<br>
+                                > GUILD: OPEN_SOURCE
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Bars -->
+                    <div class="space-y-6">
+                        <div class="bg-gray-900 border border-gray-700 p-6 rounded relative overflow-hidden">
+                            <h3 class="font-retro text-lg mb-6 text-brickBlue">SKILL_TREE</h3>
+                            
+                            <!-- Skill 1 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-1">
+                                    <span>JavaScript / TypeScript</span>
+                                    <span class="text-brickBlue">95%</span>
+                                </div>
+                                <div class="h-4 bg-gray-800 border border-gray-600 relative">
+                                    <div class="h-full bg-brickBlue w-[95%] shadow-[0_0_10px_#568095]"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skill 2 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-1">
+                                    <span>React / Next.js</span>
+                                    <span class="text-brickBlue">90%</span>
+                                </div>
+                                <div class="h-4 bg-gray-800 border border-gray-600 relative">
+                                    <div class="h-full bg-brickBlue w-[90%] shadow-[0_0_10px_#568095]"></div>
+                                </div>
+                            </div>
+
+                            <!-- Skill 3 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-1">
+                                    <span>Tailwind CSS</span>
+                                    <span class="text-brickBlue">100%</span>
+                                </div>
+                                <div class="h-4 bg-gray-800 border border-gray-600 relative">
+                                    <div class="h-full bg-brickBlue w-[100%] shadow-[0_0_10px_#568095]"></div>
+                                </div>
+                            </div>
+
+                            <!-- Skill 4 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-1">
+                                    <span>Backend (Node/Python)</span>
+                                    <span class="text-brickBlue">85%</span>
+                                </div>
+                                <div class="h-4 bg-gray-800 border border-gray-600 relative">
+                                    <div class="h-full bg-brickBlue w-[85%] shadow-[0_0_10px_#568095]"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 border border-brickBlue bg-brickBlue/5 text-sm text-brickBlue">
+                            <i class="bi bi-info-circle mr-2"></i> NOTE: Always leveling up. Currently learning Rust and WebGL.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-6 relative">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-retro text-center mb-4 text-white">SELECT MISSION</h2>
+                <p class="text-center text-gray-500 mb-16 max-w-2xl mx-auto">Choose a project to view details. Each mission represents a real-world problem solved.</p>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Project Card 1 -->
+                    <article class="bg-gray-900 border-2 border-gray-700 hover:border-brickBlue transition-all duration-300 group hover:-translate-y-2">
+                        <div class="h-48 bg-black border-b-2 border-gray-700 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="Project 1">
+                            <div class="absolute top-2 right-2 bg-brickBlue text-termBg px-2 py-1 text-xs font-bold">LVL 1</div>
+                        </div>
+                        <div class="p-6">
+                             <h3 class="font-retro text-lg text-white mb-2 text-brickBlue group-hover:text-white">ECOMMERCE_ENGINE</h3>
+                             <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">A full-featured shopping platform built with Django and Stripe integration. Features real-time inventory and AI recommendations.</p>
+                             <div class="flex gap-2 mb-6 text-xs text-gray-500 font-bold">
+                                 <span class="border border-gray-600 px-1">DJANGO</span>
+                                 <span class="border border-gray-600 px-1">PYTHON</span>
+                                 <span class="border border-gray-600 px-1">SQL</span>
+                             </div>
+                             <div class="flex justify-between items-center">
+                                 <a href="#" class="text-brickBlue hover:text-white uppercase text-sm font-bold flex items-center hover:underline">
+                                     <i class="bi bi-code-square mr-1"></i> CODE
+                                 </a>
+                                 <a href="https://django-shubham.onrender.com" class="bg-brickBlue text-termBg px-4 py-2 text-sm font-bold hover:bg-white transition-colors">
+                                     LAUNCH <i class="bi bi-box-arrow-up-right ml-1"></i>
+                                 </a>
+                             </div>
+                        </div>
+                    </article>
+
+                    <!-- Project Card 2 -->
+                    <article class="bg-gray-900 border-2 border-gray-700 hover:border-brickBlue transition-all duration-300 group hover:-translate-y-2">
+                        <div class="h-48 bg-black border-b-2 border-gray-700 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1614064641938-3e852943702d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="Project 2">
+                            <div class="absolute top-2 right-2 bg-brickBlue text-termBg px-2 py-1 text-xs font-bold">LVL 2</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-retro text-lg text-white mb-2 text-brickBlue group-hover:text-white">CRYPTO_DASH</h3>
+                            <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">Real-time cryptocurrency tracking dashboard using WebSockets for live price updates and Chart.js for visualization.</p>
+                            <div class="flex gap-2 mb-6 text-xs text-gray-500 font-bold">
+                                <span class="border border-gray-600 px-1">VUE</span>
+                                <span class="border border-gray-600 px-1">API</span>
+                                <span class="border border-gray-600 px-1">WS</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <a href="#" class="text-brickBlue hover:text-white uppercase text-sm font-bold flex items-center hover:underline">
+                                    <i class="bi bi-code-square mr-1"></i> CODE
+                                </a>
+                                <a href="#" class="bg-brickBlue text-termBg px-4 py-2 text-sm font-bold hover:bg-white transition-colors">
+                                    LAUNCH <i class="bi bi-box-arrow-up-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project Card 3 -->
+                    <article class="bg-gray-900 border-2 border-gray-700 hover:border-brickBlue transition-all duration-300 group hover:-translate-y-2">
+                        <div class="h-48 bg-black border-b-2 border-gray-700 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="Project 3">
+                            <div class="absolute top-2 right-2 bg-brickBlue text-termBg px-2 py-1 text-xs font-bold">LVL 3</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-retro text-lg text-white mb-2 text-brickBlue group-hover:text-white">AI_CHAT_BOT</h3>
+                            <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">An intelligent conversational interface integrating OpenAI API. Features context retention and custom persona settings.</p>
+                            <div class="flex gap-2 mb-6 text-xs text-gray-500 font-bold">
+                                <span class="border border-gray-600 px-1">PYTHON</span>
+                                <span class="border border-gray-600 px-1">FLASK</span>
+                                <span class="border border-gray-600 px-1">AI</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <a href="#" class="text-brickBlue hover:text-white uppercase text-sm font-bold flex items-center hover:underline">
+                                    <i class="bi bi-code-square mr-1"></i> CODE
+                                </a>
+                                <a href="#" class="bg-brickBlue text-termBg px-4 py-2 text-sm font-bold hover:bg-white transition-colors">
+                                    LAUNCH <i class="bi bi-box-arrow-up-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Fun Extra: "Brick" Breaker easter egg hint -->
+        <div class="py-10 text-center text-gray-700 text-sm">
+            <span class="border-b border-gray-800 pb-1">Hidden Achivement: Inspect Element</span>
+        </div>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-6 bg-[#0f141c]">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-retro text-white mb-8 blinking-cursor">GAME OVER?</h2>
+                <p class="text-xl text-gray-400 mb-12">No, it's just the beginning. Insert coin to continue or contact me to start a new project.</p>
+
+                <div class="bg-gray-900 border-2 border-brickBlue p-8 md:p-12 relative max-w-2xl mx-auto shadow-[0_0_40px_rgba(86,128,149,0.2)]">
+                    <!-- Corner bits -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-brickBlue bg-termBg -translate-x-1 -translate-y-1"></div>
+                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-brickBlue bg-termBg translate-x-1 -translate-y-1"></div>
+                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-brickBlue bg-termBg -translate-x-1 translate-y-1"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-brickBlue bg-termBg translate-x-1 translate-y-1"></div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <a href="mailto:hello@example.com" class="flex flex-col items-center gap-3 group">
+                            <div class="w-16 h-16 border-2 border-gray-600 flex items-center justify-center text-2xl text-gray-400 group-hover:border-brickBlue group-hover:text-brickBlue group-hover:bg-brickBlue/10 transition-all rounded bg-termBg">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest text-gray-500 group-hover:text-brickBlue">EMAIL</span>
+                        </a>
+
+                        <a href="https://github.com/shubham362-source" target="_blank" class="flex flex-col items-center gap-3 group">
+                            <div class="w-16 h-16 border-2 border-gray-600 flex items-center justify-center text-2xl text-gray-400 group-hover:border-brickBlue group-hover:text-brickBlue group-hover:bg-brickBlue/10 transition-all rounded bg-termBg">
+                                <i class="bi bi-github"></i>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest text-gray-500 group-hover:text-brickBlue">GITHUB</span>
+                        </a>
+
+                        <a href="https://linkedin.com" target="_blank" class="flex flex-col items-center gap-3 group">
+                            <div class="w-16 h-16 border-2 border-gray-600 flex items-center justify-center text-2xl text-gray-400 group-hover:border-brickBlue group-hover:text-brickBlue group-hover:bg-brickBlue/10 transition-all rounded bg-termBg">
+                                <i class="bi bi-linkedin"></i>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest text-gray-500 group-hover:text-brickBlue">LINKEDIN</span>
+                        </a>
+
+                        <a href="#" class="flex flex-col items-center gap-3 group">
+                            <div class="w-16 h-16 border-2 border-gray-600 flex items-center justify-center text-2xl text-gray-400 group-hover:border-brickBlue group-hover:text-brickBlue group-hover:bg-brickBlue/10 transition-all rounded bg-termBg">
+                                <i class="bi bi-file-earmark-person"></i>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest text-gray-500 group-hover:text-brickBlue">RESUME</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-xs text-gray-600 font-mono">
+                    <p>CREDITS: DESIGNED BY WIDECANVAS.AI</p>
+                    <p>&copy; 2023 ALL RIGHTS RESERVED. PRESS START TO PLAY.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Typing Effect
+        const textToType = "SHUBHAM'S PORTFOLIO";
+        const typeWriterElement = document.getElementById('typewriter');
+        let i = 0;
+        let isTyping = true;
+        let startDelay = 500;
+
+        function typeWriter() {
+            if (i < textToType.length) {
+                if(textToType.charAt(i) === '_') {
+                    typeWriterElement.innerHTML += '<br/>';
+                } else {
+                    typeWriterElement.innerHTML += textToType.charAt(i);
+                }
+                i++;
+                setTimeout(typeWriter, 50 + Math.random() * 100); // Random typing speed for realism
+            } else {
+                // Done typing
+            }
+        }
+
+        setTimeout(typeWriter, startDelay);
+
+        // Simple smooth scroll behavior logic for older browsers fallback
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add a "cheat code" listener
+        let keys = [];
+        const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        window.addEventListener('keydown', (e) => {
+            keys.push(e.key);
+            keys.splice(-konami.length - 1, keys.length - konami.length);
+            if(keys.join('').includes(konami.join(''))) {
+                alert('CHEAT CODE ACTIVATED: GOD MODE ENABLED (Just kidding, but nice try!)');
+                document.body.style.border = "10px solid #00ff41";
+                keys = [];
+            }
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
